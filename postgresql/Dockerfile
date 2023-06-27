@@ -1,3 +1,8 @@
+# FROM python
+
+# RUN pip install acryl-datahub-airflow-plugin[datahub-kafka]
+
+
 FROM postgres
 
 COPY db-setup/*.sql /docker-entrypoint-initdb.d/
@@ -12,3 +17,4 @@ RUN chmod a+r /docker-entrypoint-initdb.d/*
 
 # FROM quay.io/astronomer/astro-runtime:8.2.0
 # RUN pip install astronomer-providers
+

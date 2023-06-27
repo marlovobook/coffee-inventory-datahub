@@ -59,7 +59,7 @@ default_args = {
 }
 # Define your DAG
 with DAG(
-    dag_id='02_retail_stage',
+    dag_id='unused_02_retail_stage',
     default_args=default_args,
     description='Copy online_retail_stage file from local',
     schedule_interval=None,  # Set your desired schedule interval '@daily'
