@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "coffee-inventory-datahub"
+version = "0.1.0"
+description = ""
+authors = ["BOOK"]
+readme = "README.md"
+packages = [{include = "coffee_inventory_datahub"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+acryl-datahub = "^0.10.4.2"
+acryl-datahub-airflow-plugin = "^0.10.4.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
