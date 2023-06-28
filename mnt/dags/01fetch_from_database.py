@@ -40,7 +40,7 @@ with DAG(
     default_args=default_args,
     description='Copy file from PostgreSQL(database) to MinIO(datalake), the transform and load will be in another dag file',
     schedule_interval='@daily',  # Set your desired schedule interval '@daily'
-    start_date=datetime(2023, 4, 25),  # Set the start date of the DAG
+    start_date=datetime(2023, 5, 25),  # Set the start date of the DAG
 
 )as dags:
     

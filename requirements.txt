@@ -1,0 +1,1 @@
+acryl-datahub-airflow-plugin==0.10.4.3
