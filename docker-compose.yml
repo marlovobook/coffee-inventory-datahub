@@ -1,10 +1,10 @@
 version: '3.8'
 x-airflow-common:
   &airflow-common
-  image: apache/airflow:latest
   #image: ${AIRFLOW_IMAGE_NAME:-acryldata/airflow-datahub:latest}
-  # build:
+  build: .
   #   context: postgresql/. #this is optional
+  image: apache/airflow:latest
   environment:
     &airflow-common-env
     # AIRFLOW__CORE__EXECUTOR: CeleryExecutor
@@ -17,16 +17,23 @@ x-airflow-common:
     AIRFLOW__CORE__FERNET_KEY: ''
     AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
     AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+    AIRFLOW__CORE__LAZY_LOAD_PLUGINS: 'false' ##for datahub
     
     AIRFLOW__API__AUTH_BACKEND: 'airflow.api.auth.backend.basic_auth'
-    # AIRFLOW__LINEAGE__BACKEND: 'datahub_provider.lineage.datahub.DatahubLineageBackend'
-    # AIRFLOW__LINEAGE__DATAHUB_KWARGS: '{ "datahub_conn_id": "datahub_rest_default", "capture_ownership_info": true, "capture_tags_info": true, "graceful_exceptions": false }'
-    
+
+    ### airflow.cfg needed for datahub ###
+    #AIRFLOW__LINEAGE__BACKEND: 'datahub_provider.lineage.datahub.DatahubLineageBackend'
+    AIRFLOW__LINEAGE__DATAHUB_KWARGS: '{"enabled": true, "datahub_conn_id": "datahub_kafka_default", "cluster": "prod", "capture_ownership_info": true, "capture_tags_info": true, "graceful_exceptions": true}'
+    ### airflow.cfg needed for datahub ###
+
     AIRFLOW__SMTP__SMTP_HOST: mailhog
     AIRFLOW__SMTP__SMTP_STARTTLS: 'false'
     AIRFLOW__SMTP__SMTP_SSL: 'false'
     AIRFLOW__SMTP__SMTP_PORT: 1025
     AIRFLOW__SCHEDULER__DAG_DIR_LIST_INTERVAL: 15
+
+    AIRFLOW__WEBSERVER__EXPOSE_CONFIG: 'true' #to check airflow.cfg
+
     _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-}
   volumes:
     - ./mnt/dags:/opt/airflow/dags

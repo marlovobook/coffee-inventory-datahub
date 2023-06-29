@@ -1,10 +1,10 @@
 
-FROM apache/airflow:latest
+# FROM apache/airflow:latest
 
-USER airflow
-COPY requirements.txt /requirements.txt
-RUN pip install --user --upgrade pip
-RUN pip install --no-cache-dir --user -r /requirements.txt
+# USER airflow
+# COPY requirements.txt /requirements.txt
+# RUN pip install --user --upgrade pip
+# RUN pip install --no-cache-dir --user -r /requirements.txt
 # RUN pip install acryl-datahub-airflow-plugin==0.10.4.3
 
 FROM postgres
