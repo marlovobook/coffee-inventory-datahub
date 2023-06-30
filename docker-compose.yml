@@ -23,7 +23,7 @@ x-airflow-common:
 
     ### airflow.cfg needed for datahub ###
     #AIRFLOW__LINEAGE__BACKEND: 'datahub_provider.lineage.datahub.DatahubLineageBackend'
-    AIRFLOW__LINEAGE__DATAHUB_KWARGS: '{"enabled": true, "datahub_conn_id": "datahub_kafka_default", "cluster": "prod", "capture_ownership_info": true, "capture_tags_info": true, "graceful_exceptions": true}'
+    AIRFLOW__LINEAGE__DATAHUB_KWARGS: '{"enabled": true, "datahub_conn_id": "datahub_rest_default", "cluster": "prod", "capture_ownership_info": true, "capture_tags_info": true, "graceful_exceptions": true}'
     ### airflow.cfg needed for datahub ###
 
     AIRFLOW__SMTP__SMTP_HOST: mailhog
