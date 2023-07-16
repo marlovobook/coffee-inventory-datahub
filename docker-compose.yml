@@ -117,24 +117,20 @@ services:
       airflow-init:
         condition: service_completed_successfully
 
-  # airflow-worker:
-  #   <<: *airflow-common
-  #   command: celery worker
-  #   healthcheck:
-  #     test:
-  #       - "CMD-SHELL"
-  #       - 'celery --app airflow.executors.celery_executor.app inspect ping -d "celery@$${HOSTNAME}"'
-  #     interval: 10s
-  #     timeout: 10s
-  #     retries: 5
-  #   # environment:
-  #   #   <<: *airflow-common
-  #   #   DUMB_INIT_SETID: "0"
-  #   restart: always
-  #   # depends_on:
-  #   #   <<: *airflow-common-depends-on
-  #   #   airflow-init:
-  #   #     condition: service_completed_successfully
+        # function ver() {
+        #   printf "%04d%04d%04d%04d" $${1//./ }
+        # }
+        # airflow_version=$$(gosu airflow airflow version)
+        # airflow_version_comparable=$$(ver $${airflow_version})
+        # min_airflow_version=2.1.0
+        # min_airflow_version_comparable=$$(ver $${min_airflow_version})
+        # if (( airflow_version_comparable < min_airflow_version_comparable )); then
+        #   echo
+        #   echo -e "\033[1;31mERROR!!!: Too old Airflow version $${airflow_version}!\e[0m"
+        #   echo "The minimum Airflow version supported: $${min_airflow_version}. Only use this or higher!"
+        #   echo
+        #   exit 1
+        # fi
 
 
   airflow-init:
@@ -143,20 +139,6 @@ services:
     command:
       - -c
       - |
-        function ver() {
-          printf "%04d%04d%04d%04d" $${1//./ }
-        }
-        airflow_version=$$(gosu airflow airflow version)
-        airflow_version_comparable=$$(ver $${airflow_version})
-        min_airflow_version=2.1.0
-        min_airflow_version_comparable=$$(ver $${min_airflow_version})
-        if (( airflow_version_comparable < min_airflow_version_comparable )); then
-          echo
-          echo -e "\033[1;31mERROR!!!: Too old Airflow version $${airflow_version}!\e[0m"
-          echo "The minimum Airflow version supported: $${min_airflow_version}. Only use this or higher!"
-          echo
-          exit 1
-        fi
         if [[ -z "${AIRFLOW_UID}" ]]; then
           echo
           echo -e "\033[1;33mWARNING!!!: AIRFLOW_UID not set!\e[0m"
@@ -303,6 +285,25 @@ volumes:
   # mysqldata: null
   # neo4jdata: null #Add new
   # zkdata: null
+
+  # airflow-worker:
+  #   <<: *airflow-common
+  #   command: celery worker
+  #   healthcheck:
+  #     test:
+  #       - "CMD-SHELL"
+  #       - 'celery --app airflow.executors.celery_executor.app inspect ping -d "celery@$${HOSTNAME}"'
+  #     interval: 10s
+  #     timeout: 10s
+  #     retries: 5
+  #   # environment:
+  #   #   <<: *airflow-common
+  #   #   DUMB_INIT_SETID: "0"
+  #   restart: always
+  #   # depends_on:
+  #   #   <<: *airflow-common-depends-on
+  #   #   airflow-init:
+  #   #     condition: service_completed_successfully
 
 # networks:
 #   datahub_network:

@@ -1,5 +1,6 @@
 """Lineage Backend
 
+
 An example DAG demonstrating the usage of DataHub's Airflow lineage backend.
 """
 
@@ -21,7 +22,7 @@ default_args = {
 
 
 with DAG(
-    "datahub_lineage_backend_demo",
+    "datahub_lineage_backend_demo_with_postgres2",
     default_args=default_args,
     description="An example DAG demonstrating the usage of DataHub's Airflow lineage backend.",
     schedule_interval=timedelta(days=1),
@@ -34,12 +35,28 @@ with DAG(
         dag=dag,
         bash_command="echo 'This is where you might run your data tooling.'",
         inlets=[
-            Dataset("snowflake", "mydb.schema.tableA"),
+            #Dataset('DatasetType','database.schema.table')
+            Dataset("s3", "mydb.schema.tableA"),
             Dataset("snowflake", "mydb.schema.tableB", "DEV"),
+            Urn(
+                "urn:li:dataset:(urn:li:dataPlatform:postgres,postgres.dbo.table_product_demand,PROD)"
+            ),
             # You can also put dataset URNs in the inlets/outlets lists.
             Urn(
                 "urn:li:dataset:(urn:li:dataPlatform:snowflake,mydb.schema.tableC,PROD)"
             ),
         ],
-        outlets=[Dataset("snowflake", "mydb.schema.tableD")],
+        outlets=[
+            Dataset("snowflake", "mydb.schema.tableD"),
+            Dataset("postgres", "dbo.table_material_demand"),
+            Urn(
+                "urn:li:dataset:(urn:li:dataPlatform:snowflake,mydb.schema.tableC,PROD)"
+            ),
+            Urn(
+                "urn:li:dataset:(urn:li:dataPlatform:postgres,postgres.dbo.table_material_demand,PROD)"
+            ),
+            ],
+
     )
+
+    
